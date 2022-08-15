@@ -10,6 +10,7 @@
     "@types/node": "^16.11.48",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
+    "qs": "^6.11.0",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
@@ -17,11 +18,12 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "react-scripts start",
+    "start": "PORT=30000 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "prepare": "husky install"
+    "prepare": "husky install",
+    "json-server": "json-server __json_server_mock__/db.json --watch --port 30001"
   },
   "eslintConfig": {
     "extends": [
@@ -47,6 +49,7 @@
     "@commitlint/config-conventional": "^17.0.3",
     "eslint-config-prettier": "^8.5.0",
     "husky": "^8.0.1",
+    "json-server": "^0.17.0",
     "lint-staged": "^13.0.3",
     "prettier": "2.7.1"
   },
