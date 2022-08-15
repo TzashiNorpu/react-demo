@@ -1,12 +1,14 @@
 import { useEffect, useState } from "react";
 
-export const isFalsy = (value) => (value === 0 ? false : !value);
+export const isFalsy = (value: any) => (value === 0 ? false : !value);
 
-export const cleanObject = (object) => {
+export const cleanObject = (object: object) => {
   const result = { ...object };
   Object.keys(object).forEach((key) => {
+    // @ts-ignore
     const value = object[key];
     if (isFalsy(value)) {
+      // @ts-ignore
       delete result[key];
     }
   });
@@ -14,11 +16,13 @@ export const cleanObject = (object) => {
 };
 // hooks  组件加载时只执行一次
 // hook 只能在其他 hook 或组件中运行
-export const useMount = (callback) => {
+export const useMount = (callback: () => void) => {
   useEffect(() => {
     callback();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 };
+
 // debounce 原理
 // const debounce = (func, delay) => {
 //   let timeout;
@@ -46,7 +50,7 @@ export const useMount = (callback) => {
 //     log()#3 // 发现 timeout#2! 取消之，然后设置timeout#3
 //             // 所以，log()#3 结束后，就只剩timeout#3在独自等待了
 
-export const useDebounce = (value, delay) => {
+export const useDebounce = (value: any, delay?: number) => {
   const [debouncedValue, setDebouncedValue] = useState(value);
   useEffect(() => {
     // 每次在value变化以后，设置一个定时器
