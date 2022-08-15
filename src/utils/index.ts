@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 
-export const isFalsy = (value: any) => (value === 0 ? false : !value);
+export const isFalsy = (value: unknown): boolean =>
+  value === 0 ? false : !value;
 
 export const cleanObject = (object: object) => {
   const result = { ...object };
@@ -50,7 +51,7 @@ export const useMount = (callback: () => void) => {
 //     log()#3 // 发现 timeout#2! 取消之，然后设置timeout#3
 //             // 所以，log()#3 结束后，就只剩timeout#3在独自等待了
 
-export const useDebounce = (value: any, delay?: number) => {
+export const useDebounce = (value: unknown, delay?: number): any => {
   const [debouncedValue, setDebouncedValue] = useState(value);
   useEffect(() => {
     // 每次在value变化以后，设置一个定时器
