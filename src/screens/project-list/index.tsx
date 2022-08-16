@@ -3,8 +3,8 @@ import { SearchPanel } from "./search-panel";
 import { useEffect, useState } from "react";
 import React from "react";
 import { cleanObject, useDebounce, useMount } from "utils";
-import qs from "qs";
-const apiUrl = process.env.REACT_APP_API_URL;
+import { useHttp } from "utils/http";
+
 export const ProjectListScreen = () => {
   const [param, setParam] = useState({
     name: "",
@@ -15,23 +15,28 @@ export const ProjectListScreen = () => {
 
   const debouncedParam = useDebounce(param, 300);
 
+  const client = useHttp();
+
   // param 改变时从接口获取数据
   useEffect(() => {
-    fetch(
+    client("projects", { data: cleanObject(debouncedParam) }).then(setList);
+    /* fetch(
       `${apiUrl}/projects?${qs.stringify(cleanObject(debouncedParam))}`
     ).then(async (response) => {
       if (response.ok) {
         setList(await response.json());
       }
-    });
+    });*/
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [debouncedParam]);
 
   useMount(() => {
-    fetch(`${apiUrl}/users`).then(async (response) => {
+    client("users").then(setUsers);
+    /* fetch(`${apiUrl}/users`).then(async (response) => {
       if (response.ok) {
         setUsers(await response.json());
       }
-    });
+    }); */
   });
   return (
     <div>
