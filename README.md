@@ -16,3 +16,8 @@
 
 - yarn add @emotion/react
 - yarn add @emotion/styled
+
+### date
+
+- yarn add dayjs
+  momentjs 停止维护了
