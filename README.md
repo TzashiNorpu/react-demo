@@ -1,6 +1,7 @@
 ### microservice
 
 - yarn add jira-dev-tool
+- yarn add jira-dev-tool@next
 - npx msw init public
 
 #### CSS
@@ -17,7 +18,11 @@
 - yarn add @emotion/react
 - yarn add @emotion/styled
 
-### date
+#### date
 
 - yarn add dayjs
-  momentjs 停止维护了
+- momentjs 停止维护了
+
+#### react-query
+
+- yarn add react-query

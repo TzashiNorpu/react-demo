@@ -1,10 +1,10 @@
 import { AuthenticatedApp } from "authenticated-app";
 import { useAuth } from "context/auth-context";
-import React, { FC } from "react";
+import React from "react";
 import { UnauthenticatedApp } from "unauthenticated-app";
 import "./App.css";
 
-const App: FC = () => {
+function App() {
   const { user } = useAuth();
   return (
     <div className="App">
@@ -12,6 +12,6 @@ const App: FC = () => {
       {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
     </div>
   );
-};
+}
 
 export default App;
