@@ -11,3 +11,8 @@
 
 - yarn add @craco/craco
 - yarn add craco-less
+
+#### emotion
+
+- yarn add @emotion/react
+- yarn add @emotion/styled
