@@ -1,8 +1,8 @@
-import { Table } from "antd";
+import {Table, TableProps} from "antd";
 import dayjs from "dayjs";
 import React from "react";
-import { User } from "./search-panel";
-interface Project {
+import {User} from "./search-panel";
+export interface Project {
   id: string;
   name: string;
   personId: string;
@@ -11,14 +11,17 @@ interface Project {
   created: number;
 }
 
-interface ListProps {
-  list: Project[];
+interface ListProps extends TableProps<Project> {
+  // list: Project[];
   users: User[];
 }
 
-export const List = ({ users, list }: ListProps) => {
+// type PropsType = Omit<ListProps, 'users'>;
+
+export const List = ({users, ...props}: ListProps) => {
   return (
     <Table
+      rowKey={"id"}
       pagination={false}
       columns={[
         {
@@ -53,7 +56,8 @@ export const List = ({ users, list }: ListProps) => {
           },
         },
       ]}
-      dataSource={list}
+      {...props}
+    // dataSource={list}
     />
   );
 
