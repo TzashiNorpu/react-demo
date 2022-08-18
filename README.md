@@ -34,3 +34,6 @@
 
 #### router
 - yarn add react-router react-router-dom
+
+#### debug tool
+- yarn add @welldone-software/why-did-you-render
