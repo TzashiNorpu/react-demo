@@ -18,7 +18,7 @@ export const UnauthenticatedApp = () => {
         {error ? <Typography.Text type={"danger"}>{error.message}</Typography.Text> : null}
         {isRegister ? <RegisterScreen onError={setError} /> : <LoginScreen onError={setError} />}
         <Divider />
-        <Button type={"link"} onClick={() => setIsRegister(!isRegister)}>
+        <Button type={"link"} onClick={() => {setIsRegister(!isRegister); setError(null)}}>
           {isRegister ? "已经有帐号了？直接登录" : "没有帐号了？注册新账号"}
         </Button>
       </ShadowCard>

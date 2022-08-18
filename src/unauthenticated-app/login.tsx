@@ -16,12 +16,12 @@ export const LoginScreen = ({onError}: {onError: (error: Error) => void}) => {
     //   .value; 
     // login({username, password});
     // login(values).catch((e) => onError(e));
-    await run(login(values)).catch(err => onError(err));
-    /* try {
+    // await run(login(values)).catch(err => onError(err));
+    try {
       await run(login(values));
     } catch (error) {
-      onError(error);
-    } */
+      onError(error as Error);
+    }
     // run(login(values)).catch((e) => onError(e));
   };
   /*   const handleSumbit = async (values: {username: string; password: string}) => {
