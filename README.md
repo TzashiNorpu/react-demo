@@ -31,3 +31,6 @@
 #### webpack
 - node_modules/react-scripts/config/webpack.config.js:356
   - test: /\.(js|mjs|jsx|ts|tsx|css)$/ -> test: /\.(js|mjs|jsx|ts|tsx)$
+
+#### router
+- yarn add react-router react-router-dom

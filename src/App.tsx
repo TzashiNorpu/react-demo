@@ -4,6 +4,7 @@ import {FullPageErrorFallback} from "components/lib";
 import {useAuth} from "context/auth-context";
 import React from "react";
 import {UnauthenticatedApp} from "unauthenticated-app";
+import {BrowserRouter as Router} from 'react-router-dom';
 import "./App.css";
 
 function App() {
@@ -12,7 +13,9 @@ function App() {
     <div className="App">
       <ErrorBoundary fallbackRender={FullPageErrorFallback}>
         {/* <ProjectListScreen /> */}
-        {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+        <Router>
+          {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+        </Router>
       </ErrorBoundary>
     </div>
   );
