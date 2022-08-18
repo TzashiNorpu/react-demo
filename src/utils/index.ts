@@ -1,4 +1,5 @@
-import { useEffect, useState } from "react";
+import {title} from "process";
+import {useEffect, useState} from "react";
 
 export const isFalsy = (value: unknown): boolean =>
   value === 0 ? false : !value;
@@ -6,8 +7,8 @@ export const isFalsy = (value: unknown): boolean =>
 export const isVoid = (value: unknown): boolean =>
   value === "" || value === undefined || value === null;
 
-export const cleanObject = (object: { [key: string]: unknown }) => {
-  const result = { ...object };
+export const cleanObject = (object: {[key: string]: unknown}) => {
+  const result = {...object};
   Object.keys(object).forEach((key) => {
     const value = result[key];
     if (isVoid(value)) {
@@ -78,3 +79,19 @@ export const useArray = <T>(initialArray: T[]) => {
     },
   };
 };
+
+export const useDocumenTitle = (title: string, keepOnUnmount: boolean = true) => {
+  const oldTitle = document.title;
+  console.log('渲染时的oldTitle', oldTitle);
+  useEffect(() => {
+    document.title = title
+  }, [title])
+  useEffect(() => {
+    return () => {
+      if (!keepOnUnmount) {
+        console.log('卸载时的oldTitle', oldTitle)
+        document.title = oldTitle;
+      }
+    }
+  }, [])
+}
