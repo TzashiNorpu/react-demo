@@ -13,6 +13,12 @@ export const UnauthenticatedApp = () => {
     <Container>
       <Header />
       <Background />
+      {/* ErrorBoundary 捕捉不到这个事件异常 */}
+      {/* <Button onClick={() => {
+        throw new Error('点击抛出一个异常');
+      }}>
+        抛出异常
+      </Button> */}
       <ShadowCard>
         <Title>{isRegister ? "请注册" : "请登录"}</Title>
         {error ? <Typography.Text type={"danger"}>{error.message}</Typography.Text> : null}
@@ -22,7 +28,7 @@ export const UnauthenticatedApp = () => {
           {isRegister ? "已经有帐号了？直接登录" : "没有帐号了？注册新账号"}
         </Button>
       </ShadowCard>
-    </Container>
+    </Container >
   );
 };
 

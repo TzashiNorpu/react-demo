@@ -1,15 +1,19 @@
-import { AuthenticatedApp } from "authenticated-app";
-import { useAuth } from "context/auth-context";
+import {AuthenticatedApp} from "authenticated-app";
+import {ErrorBoundary} from "components/error-boundary";
+import {FullPageErrorFallback} from "components/lib";
+import {useAuth} from "context/auth-context";
 import React from "react";
-import { UnauthenticatedApp } from "unauthenticated-app";
+import {UnauthenticatedApp} from "unauthenticated-app";
 import "./App.css";
 
 function App() {
-  const { user } = useAuth();
+  const {user} = useAuth();
   return (
     <div className="App">
-      {/* <ProjectListScreen /> */}
-      {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+      <ErrorBoundary fallbackRender={FullPageErrorFallback}>
+        {/* <ProjectListScreen /> */}
+        {user ? <AuthenticatedApp /> : <UnauthenticatedApp />}
+      </ErrorBoundary>
     </div>
   );
 }

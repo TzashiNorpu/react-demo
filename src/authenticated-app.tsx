@@ -1,10 +1,10 @@
 import styled from "@emotion/styled";
-import { Row } from "components/lib";
-import { useAuth } from "context/auth-context";
+import {Row} from "components/lib";
+import {useAuth} from "context/auth-context";
 import React from "react";
-import { ProjectListScreen } from "screens/project-list";
-import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
-import { Button, Dropdown, Menu } from "antd";
+import {ProjectListScreen} from "screens/project-list";
+import {ReactComponent as SoftwareLogo} from "assets/software-logo.svg";
+import {Button, Dropdown, Menu} from "antd";
 
 /**
  * grid 和 flex 各自的应用场景
@@ -19,9 +19,11 @@ import { Button, Dropdown, Menu } from "antd";
  */
 
 export const AuthenticatedApp = () => {
-  const { logout, user } = useAuth();
+  const {logout, user} = useAuth();
+  const value: any = undefined;
   return (
     <Container>
+      {value.notExist}
       <Header between={true}>
         <HeaderLeft gap={true}>
           <SoftwareLogo width={"18rem"} color={"rgb(38,132,255)"} />
