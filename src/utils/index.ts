@@ -1,5 +1,5 @@
 import {title} from "process";
-import {useEffect, useState} from "react";
+import {useEffect, useRef, useState} from "react";
 
 export const isFalsy = (value: unknown): boolean =>
   value === 0 ? false : !value;
@@ -81,7 +81,8 @@ export const useArray = <T>(initialArray: T[]) => {
 };
 
 export const useDocumenTitle = (title: string, keepOnUnmount: boolean = true) => {
-  const oldTitle = document.title;
+  // const oldTitle = document.title;
+  const oldTitle = useRef(document.title).current;
   console.log('渲染时的oldTitle', oldTitle);
   useEffect(() => {
     document.title = title
@@ -93,5 +94,5 @@ export const useDocumenTitle = (title: string, keepOnUnmount: boolean = true) =>
         document.title = oldTitle;
       }
     }
-  }, [])
+  }, [keepOnUnmount, oldTitle])
 }
