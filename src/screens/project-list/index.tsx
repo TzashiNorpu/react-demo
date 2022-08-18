@@ -6,7 +6,7 @@ import styled from "@emotion/styled";
 import {Typography} from "antd";
 import {useProjects} from "utils/project";
 import {useUsers} from "utils/user";
-import {useUrlQueryParam} from "utils/url";
+import {useProjectsSearchParams} from "./util";
 
 export const ProjectListScreen = () => {
   /* const [param, setParam] = useState({
@@ -17,7 +17,8 @@ export const ProjectListScreen = () => {
       name: "",
       personId: "",
     }); */
-  const [param, setParam] = useUrlQueryParam(['name', 'personId']);
+  /*  const [param, setParam] = useUrlQueryParam(['name', 'personId']);
+   const projectParam = {...param, personId: Number(param.personId) || undefined}; */
   // const [users, setUsers] = useState([]);
   // const [list, setList] = useState([]);
   /* 
@@ -26,8 +27,9 @@ export const ProjectListScreen = () => {
  */
 
   useDocumenTitle('项目列表', false);
-  const debouncedParam = useDebounce(param, 300);
-  const {isLoading, error, data: list} = useProjects(debouncedParam);
+  const [param, setParam] = useProjectsSearchParams();
+  // const debouncedParam = useDebounce(projectParam, 300);
+  const {isLoading, error, data: list} = useProjects(useDebounce(param, 300));
   const {data: users} = useUsers();
   // const client = useHttp();
 
