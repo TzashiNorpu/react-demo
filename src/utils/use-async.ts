@@ -1,4 +1,5 @@
-import {useState} from "react";
+import {useCallback, useState} from "react";
+import {useMountedRef} from "utils";
 
 interface State<D> {
   error: Error | null;
@@ -22,23 +23,25 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
     ...defaultInitialState,
     ...initialState
   })
+
+  const mountedRef = useMountedRef();
   // useState直接传入函数的含义是：惰性初始化；所以，要用useState保存函数，不能直接传入函数
   // https://codesandbox.io/s/blissful-water-230u4?file=/src/App.js
   const [retry, setRetry] = useState(() => () => {})
 
-  const setData = (data: D) => setState({
+  const setData = useCallback((data: D) => setState({
     data,
     stat: 'success',
     error: null
-  })
+  }), [])
 
-  const setError = (error: Error) => setState({
+  const setError = useCallback((error: Error) => setState({
     data: null,
     stat: 'error',
     error: error
-  })
+  }), [])
 
-  const run = (promise: Promise<D>, runConfig?: {retry: () => Promise<D>}) => {
+  const run = useCallback((promise: Promise<D>, runConfig?: {retry: () => Promise<D>}) => {
     if (!promise || !promise.then) {
       throw new Error('请传入 Promise 类型数据');
     }
@@ -47,10 +50,11 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
       if (runConfig?.retry)
         run(runConfig?.retry(), runConfig);
     })
-    setState({...state, stat: 'loading'});
+    setState(prevState => ({...prevState, stat: 'loading'}));
 
     return promise.then((data) => {
-      setData(data);
+      if (mountedRef.current)
+        setData(data);
       return data;
     })
       .catch((error) => {
@@ -61,7 +65,7 @@ export const useAsync = <D>(initialState?: State<D>, initialConfig?: typeof defa
         }
         return error;
       })
-  }
+  }, [config.throwOnError, mountedRef, setData, setError])
 
   return {
     isIdle: state.stat === 'idle',
