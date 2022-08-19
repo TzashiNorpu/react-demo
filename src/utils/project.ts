@@ -7,8 +7,10 @@ import {useAsync} from "./use-async";
 export const useProjects = (param?: Partial<Project>) => {
   const client = useHttp();
   const {run, ...result} = useAsync<Project[]>();
+
+  const fetchProjects = () => client("projects", {data: cleanObject(param || {})});
   useEffect(() => {
-    run(client("projects", {data: cleanObject(param || {})}))
+    run(fetchProjects(), {retry: fetchProjects});
     /* setIsLoading(true);
     client("projects", {data: cleanObject(debouncedParam)})
       .then(setList)
