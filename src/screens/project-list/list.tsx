@@ -21,7 +21,8 @@ interface ListProps extends TableProps<Project> {
   // list: Project[];
   users: User[];
   refresh?: () => void,
-  setProjectModalOpen: (isOpen: boolean) => void
+  // setProjectModalOpen: (isOpen: boolean) => void
+  projectButton: JSX.Element
 }
 
 // type PropsType = Omit<ListProps, 'users'>;
@@ -79,7 +80,8 @@ export const List = ({users, ...props}: ListProps) => {
             return <Dropdown overlay={
               <Menu>
                 <Menu.Item key={'edit'}>
-                  <ButtonNoPadding type={'link'} onClick={() => props.setProjectModalOpen(true)}>编辑</ButtonNoPadding>
+                  {/* <ButtonNoPadding type={'link'} onClick={() => props.setProjectModalOpen(true)}>编辑</ButtonNoPadding> */}
+                  {props.projectButton}
                 </Menu.Item>
               </Menu>
             } >

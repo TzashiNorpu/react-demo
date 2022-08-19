@@ -9,7 +9,10 @@ import {useUsers} from "utils/user";
 import {useProjectsSearchParams} from "./util";
 import {Row} from "components/lib";
 
-export const ProjectListScreen = (props: {setProjectModalOpen: (isOpen: boolean) => void}) => {
+export const ProjectListScreen = (props:
+  //{setProjectModalOpen: (isOpen: boolean) => void}
+  {projectButton: JSX.Element}
+) => {
   /* const [param, setParam] = useState({
     name: "",
     personId: "",
@@ -70,14 +73,16 @@ export const ProjectListScreen = (props: {setProjectModalOpen: (isOpen: boolean)
       {/* <Test /> */}
       <Row between={true}>
         <h1>项目列表</h1>
-        <Button onClick={() => props.setProjectModalOpen(true)}>创建项目</Button>
+        {/* <Button onClick={() => props.setProjectModalOpen(true)}>创建项目</Button> */}
+        {props.projectButton}
       </Row>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
       {
         error ? <Typography.Text type={"danger"}>{error.message}</Typography.Text> : null
       }
       <List
-        setProjectModalOpen={props.setProjectModalOpen}
+        // setProjectModalOpen={props.setProjectModalOpen}
+        projectButton={props.projectButton}
         refresh={retry}
         loading={isLoading}
         users={users || []}
