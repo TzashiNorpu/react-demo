@@ -1,12 +1,13 @@
-import {Dropdown, Menu, Table, TableProps} from "antd";
-import {ButtonNoPadding} from "components/lib";
-import {Pin} from "components/pin";
+import { Dropdown, Menu, Table, TableProps } from "antd";
+import { ButtonNoPadding } from "components/lib";
+import { Pin } from "components/pin";
 import dayjs from "dayjs";
 import React from "react";
-import {Link} from "react-router-dom";
-import {useEditProject} from "utils/project";
-import {User} from "./search-panel";
-
+import { useDispatch } from "react-redux";
+import { Link } from "react-router-dom";
+import { useEditProject } from "utils/project";
+import { projectListActions } from "./project-list.slice";
+import { User } from "./search-panel";
 
 export interface Project {
   id: number;
@@ -20,16 +21,18 @@ export interface Project {
 interface ListProps extends TableProps<Project> {
   // list: Project[];
   users: User[];
-  refresh?: () => void,
+  refresh?: () => void;
   // setProjectModalOpen: (isOpen: boolean) => void
-  projectButton: JSX.Element
+  //projectButton: JSX.Element
 }
 
 // type PropsType = Omit<ListProps, 'users'>;
 
-export const List = ({users, ...props}: ListProps) => {
-  const {mutate} = useEditProject();
-  const pinProject = (id: number) => (pin: boolean) => mutate({id, pin}).then(props.refresh)
+export const List = ({ users, ...props }: ListProps) => {
+  const { mutate } = useEditProject();
+  const dispatch = useDispatch();
+  const pinProject = (id: number) => (pin: boolean) =>
+    mutate({ id, pin }).then(props.refresh);
   return (
     <Table
       rowKey={"id"}
@@ -38,16 +41,21 @@ export const List = ({users, ...props}: ListProps) => {
         {
           title: <Pin checked={true} disabled={true} />,
           render(value, project) {
-            return <Pin checked={project.pin} onCheckedChange={pinProject(project.id)} />
-          }
+            return (
+              <Pin
+                checked={project.pin}
+                onCheckedChange={pinProject(project.id)}
+              />
+            );
+          },
         },
         {
           title: "名称",
           // dataIndex: "name",
           sorter: (a, b) => a.name.localeCompare(b.name),
           render(value, project) {
-            return (<Link to={String(project.id)}>{project.name}</Link>)
-          }
+            return <Link to={String(project.id)}>{project.name}</Link>;
+          },
         },
         {
           title: "部门",
@@ -77,21 +85,33 @@ export const List = ({users, ...props}: ListProps) => {
         },
         {
           render(value, project) {
-            return <Dropdown overlay={
-              <Menu>
-                <Menu.Item key={'edit'}>
-                  {/* <ButtonNoPadding type={'link'} onClick={() => props.setProjectModalOpen(true)}>编辑</ButtonNoPadding> */}
-                  {props.projectButton}
-                </Menu.Item>
-              </Menu>
-            } >
-              <ButtonNoPadding type={'link'}>...</ButtonNoPadding>
-            </Dropdown>;
+            return (
+              <Dropdown
+                overlay={
+                  <Menu>
+                    <Menu.Item key={"edit"}>
+                      {/* <ButtonNoPadding type={'link'} onClick={() => props.setProjectModalOpen(true)}>编辑</ButtonNoPadding> */}
+                      <ButtonNoPadding
+                        type={"link"}
+                        onClick={() =>
+                          dispatch(projectListActions.openProjectModal())
+                        }
+                      >
+                        编辑
+                      </ButtonNoPadding>
+                      {/* {props.projectButton} */}
+                    </Menu.Item>
+                  </Menu>
+                }
+              >
+                <ButtonNoPadding type={"link"}>...</ButtonNoPadding>
+              </Dropdown>
+            );
           },
         },
       ]}
       {...props}
-    // dataSource={list}
+      // dataSource={list}
     />
   );
 
