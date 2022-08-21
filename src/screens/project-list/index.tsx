@@ -1,7 +1,7 @@
 import { List } from "./list";
 import { SearchPanel } from "./search-panel";
 import React from "react";
-import { useDebounce, useDocumenTitle } from "utils";
+import { useDebounce, useDocumentTitle } from "utils";
 import styled from "@emotion/styled";
 import { Typography } from "antd";
 import { useProjects } from "utils/project";
@@ -27,7 +27,7 @@ export const ProjectListScreen = () => {
   const [error, setError] = useState<null | Error>(null);
  */
 
-  useDocumenTitle("项目列表", false);
+  useDocumentTitle("项目列表", false);
   const [param, setParam] = useProjectsSearchParams();
   // const debouncedParam = useDebounce(projectParam, 300);
   const { isLoading, error, data: list } = useProjects(useDebounce(param, 300));

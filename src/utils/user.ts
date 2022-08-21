@@ -1,14 +1,14 @@
-import {useEffect} from "react";
-import {User} from "screens/project-list/search-panel";
-import {cleanObject} from "utils";
-import {useHttp} from "./http";
-import {useAsync} from "./use-async";
+import { useEffect } from "react";
+import { User } from "types";
+import { cleanObject } from "utils";
+import { useHttp } from "./http";
+import { useAsync } from "./use-async";
 
 export const useUsers = (param?: Partial<User>) => {
   const client = useHttp();
-  const {run, ...result} = useAsync<User[]>();
+  const { run, ...result } = useAsync<User[]>();
   useEffect(() => {
-    run(client("users", {data: cleanObject(param || {})}))
+    run(client("users", { data: cleanObject(param || {}) }));
     /* setIsLoading(true);
     client("projects", {data: cleanObject(debouncedParam)})
       .then(setList)
@@ -28,4 +28,4 @@ export const useUsers = (param?: Partial<User>) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [param]);
   return result;
-}
+};

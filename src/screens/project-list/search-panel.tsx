@@ -1,19 +1,11 @@
-import {Form, Input} from "antd";
-import {UserSelect} from "components/user-select";
+import { Form, Input } from "antd";
+import { UserSelect } from "components/user-select";
 import React from "react";
-import {Project} from "./list";
-export interface User {
-  id: number;
-  name: string;
-  email: string;
-  title: string;
-  organization: string;
-  token: string;
-}
+import { Project, User } from "types";
 
 interface SearchPanelProps {
   users: User[];
-  param: Partial<Pick<Project, 'name' | 'personId'>>;
+  param: Partial<Pick<Project, "name" | "personId">>;
   /*   param: {
       name: string;
       personId: number;
@@ -21,10 +13,10 @@ interface SearchPanelProps {
   setParam: (param: SearchPanelProps["param"]) => void;
 }
 
-export const SearchPanel = ({users, param, setParam}: SearchPanelProps) => {
+export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
   return (
     // emotion 行内样式
-    <Form style={{marginBottom: "2rem"}} layout={"inline"}>
+    <Form style={{ marginBottom: "2rem" }} layout={"inline"}>
       <Form.Item>
         <Input
           placeholder={"项目名"}
@@ -41,15 +33,15 @@ export const SearchPanel = ({users, param, setParam}: SearchPanelProps) => {
       </Form.Item>
       <Form.Item>
         <UserSelect
-          defaultOptionName={'负责人'}
+          defaultOptionName={"负责人"}
           value={param.personId}
-          onChange={
-            (value) =>
-              setParam({
-                ...param,
-                personId: value,
-              })
-          } />
+          onChange={(value) =>
+            setParam({
+              ...param,
+              personId: value,
+            })
+          }
+        />
         {/* <Select
           value={param.personId}
           onChange={(value) =>

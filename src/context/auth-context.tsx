@@ -1,10 +1,11 @@
-import React, {ReactNode} from "react";
+import React, { ReactNode } from "react";
 import * as auth from "auth-provider";
-import {User} from "screens/project-list/search-panel";
-import {http} from "utils/http";
-import {useMount} from "utils";
-import {useAsync} from "utils/use-async";
-import {FullPageErrorFallback, FullPageLoading} from "components/lib";
+import { http } from "utils/http";
+import { useMount } from "utils";
+import { useAsync } from "utils/use-async";
+import { FullPageErrorFallback, FullPageLoading } from "components/lib";
+import { useQueryClient } from "react-query";
+import { User } from "types";
 
 interface AuthForm {
   username: string;
@@ -15,7 +16,7 @@ const bootstrapUser = async () => {
   let user = null;
   const token = auth.getToken();
   if (token) {
-    const data = await http("me", {token});
+    const data = await http("me", { token });
     user = data.user;
   }
   return user;
@@ -32,15 +33,23 @@ const AuthContext = React.createContext<iAuthContext | undefined>(undefined);
 
 AuthContext.displayName = "AuthContext";
 
-export const AuthProvider = ({children}: {children: ReactNode}) => {
+export const AuthProvider = ({ children }: { children: ReactNode }) => {
   // const [user, setUser] = useState<User | null>(null);
-  const {data: user, error, isLoading, isIdle, isError, run, setData: setUser} = useAsync<User | null>();
+  const {
+    data: user,
+    error,
+    isLoading,
+    isIdle,
+    isError,
+    run,
+    setData: setUser,
+  } = useAsync<User | null>();
   useMount(() => {
     // bootstrapUser().then(setUser);
-    run(bootstrapUser())
+    run(bootstrapUser());
   });
   if (isIdle || isLoading) {
-    return <FullPageLoading />
+    return <FullPageLoading />;
   }
 
   if (isError) {
@@ -50,12 +59,18 @@ export const AuthProvider = ({children}: {children: ReactNode}) => {
   // const login = (form: AuthForm) => auth.login(form).then(user => setUser(user));
   const login = (form: AuthForm) => auth.login(form).then(setUser);
   const register = (form: AuthForm) => auth.register(form).then(setUser);
-  const logout = () => auth.logout().then(() => setUser(null));
+
+  // const queryClient = useQueryClient();
+  const logout = () =>
+    auth.logout().then(() => {
+      setUser(null);
+      // queryClient.clear();
+    });
 
   return (
     <AuthContext.Provider
       children={children}
-      value={{user, login, register, logout}}
+      value={{ user, login, register, logout }}
     />
   );
 };

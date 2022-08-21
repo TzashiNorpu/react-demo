@@ -6,8 +6,8 @@ import {
   useQuery,
   useQueryClient,
 } from "react-query";
-import { Project } from "screens/project-list/list";
 import { useProjectsSearchParams } from "screens/project-list/util";
+import { Project } from "types";
 import { cleanObject } from "utils";
 import { useHttp } from "./http";
 import { useAsync } from "./use-async";

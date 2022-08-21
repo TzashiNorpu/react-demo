@@ -79,7 +79,7 @@ export const useArray = <T>(initialArray: T[]) => {
   };
 };
 
-export const useDocumenTitle = (
+export const useDocumentTitle = (
   title: string,
   keepOnUnmount: boolean = true
 ) => {
