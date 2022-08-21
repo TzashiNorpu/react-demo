@@ -1,4 +1,4 @@
-import {useEffect, useRef, useState} from "react";
+import { useEffect, useRef, useState } from "react";
 
 export const isFalsy = (value: unknown): boolean =>
   value === 0 ? false : !value;
@@ -6,8 +6,8 @@ export const isFalsy = (value: unknown): boolean =>
 export const isVoid = (value: unknown): boolean =>
   value === "" || value === undefined || value === null;
 
-export const cleanObject = (object: {[key: string]: unknown}) => {
-  const result = {...object};
+export const cleanObject = (object: { [key: string]: unknown }) => {
+  const result = { ...object };
   Object.keys(object).forEach((key) => {
     const value = result[key];
     if (isVoid(value)) {
@@ -79,22 +79,42 @@ export const useArray = <T>(initialArray: T[]) => {
   };
 };
 
-export const useDocumenTitle = (title: string, keepOnUnmount: boolean = true) => {
+export const useDocumenTitle = (
+  title: string,
+  keepOnUnmount: boolean = true
+) => {
   // const oldTitle = document.title;
   const oldTitle = useRef(document.title).current;
   // console.log('渲染时的oldTitle', oldTitle);
   useEffect(() => {
-    document.title = title
-  }, [title])
+    document.title = title;
+  }, [title]);
   useEffect(() => {
     return () => {
       if (!keepOnUnmount) {
         // console.log('卸载时的oldTitle', oldTitle)
         document.title = oldTitle;
       }
-    }
-  }, [keepOnUnmount, oldTitle])
-}
+    };
+  }, [keepOnUnmount, oldTitle]);
+};
 
+/**
+ * 传入一个对象，和键集合，返回对应的对象中的键值对
+ * @param obj
+ * @param keys
+ */
+export const subset = <
+  O extends { [key in string]: unknown },
+  K extends keyof O
+>(
+  obj: O,
+  keys: K[]
+) => {
+  const filteredEntries = Object.entries(obj).filter(([key]) =>
+    keys.includes(key as K)
+  );
+  return Object.fromEntries(filteredEntries) as Pick<O, K>;
+};
 
-export const resetRoute = () => window.location.href = window.location.origin
+export const resetRoute = () => (window.location.href = window.location.origin);
