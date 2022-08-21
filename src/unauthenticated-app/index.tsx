@@ -1,16 +1,17 @@
 import styled from "@emotion/styled";
-import {Button, Card, Divider, Typography} from "antd";
-import React, {useState} from "react";
-import {LoginScreen} from "./login";
-import {RegisterScreen} from "./register";
+import { Button, Card, Divider, Typography } from "antd";
+import React, { useState } from "react";
+import { LoginScreen } from "./login";
+import { RegisterScreen } from "./register";
 import logo from "assets/logo.svg";
 import left from "assets/left.svg";
 import right from "assets/right.svg";
-import {useDocumenTitle} from "utils";
+import { useDocumenTitle } from "utils";
+import { ErrorBox } from "components/lib";
 export const UnauthenticatedApp = () => {
   const [isRegister, setIsRegister] = useState(false);
   const [error, setError] = useState<Error | null>(null);
-  useDocumenTitle('请登录注册以继续');
+  useDocumenTitle("请登录注册以继续");
   return (
     <Container>
       <Header />
@@ -23,14 +24,25 @@ export const UnauthenticatedApp = () => {
       </Button> */}
       <ShadowCard>
         <Title>{isRegister ? "请注册" : "请登录"}</Title>
-        {error ? <Typography.Text type={"danger"}>{error.message}</Typography.Text> : null}
-        {isRegister ? <RegisterScreen onError={setError} /> : <LoginScreen onError={setError} />}
+        <ErrorBox error={error} />
+        {/* {error ? <Typography.Text type={"danger"}>{error.message}</Typography.Text> : null} */}
+        {isRegister ? (
+          <RegisterScreen onError={setError} />
+        ) : (
+          <LoginScreen onError={setError} />
+        )}
         <Divider />
-        <Button type={"link"} onClick={() => {setIsRegister(!isRegister); setError(null)}}>
+        <Button
+          type={"link"}
+          onClick={() => {
+            setIsRegister(!isRegister);
+            setError(null);
+          }}
+        >
           {isRegister ? "已经有帐号了？直接登录" : "没有帐号了？注册新账号"}
         </Button>
       </ShadowCard>
-    </Container >
+    </Container>
   );
 };
 

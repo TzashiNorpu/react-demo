@@ -1,12 +1,13 @@
-import {List} from "./list";
-import {SearchPanel} from "./search-panel";
+import { List } from "./list";
+import { SearchPanel } from "./search-panel";
 import React from "react";
-import {useDebounce, useDocumenTitle} from "utils";
+import { useDebounce, useDocumenTitle } from "utils";
 import styled from "@emotion/styled";
-import {Typography} from "antd";
-import {useProjects} from "utils/project";
-import {useUsers} from "utils/user";
-import {useProjectsSearchParams} from "./util";
+import { Typography } from "antd";
+import { useProjects } from "utils/project";
+import { useUsers } from "utils/user";
+import { useProjectModal, useProjectsSearchParams } from "./util";
+import { ButtonNoPadding, ErrorBox, Row } from "components/lib";
 
 export const ProjectListScreen = () => {
   /* const [param, setParam] = useState({
@@ -26,11 +27,12 @@ export const ProjectListScreen = () => {
   const [error, setError] = useState<null | Error>(null);
  */
 
-  useDocumenTitle('项目列表', false);
+  useDocumenTitle("项目列表", false);
   const [param, setParam] = useProjectsSearchParams();
   // const debouncedParam = useDebounce(projectParam, 300);
-  const {isLoading, error, data: list} = useProjects(useDebounce(param, 300));
-  const {data: users} = useUsers();
+  const { isLoading, error, data: list } = useProjects(useDebounce(param, 300));
+  const { data: users } = useUsers();
+  const { open } = useProjectModal();
   // const client = useHttp();
 
   // const {run, isLoading, error, data: list} = useAsync<Project[]>();
@@ -66,13 +68,20 @@ export const ProjectListScreen = () => {
   // });
   return (
     <Container>
-      {/* <Test /> */}
-      <h1>项目列表</h1>
+      <Row between={true}>
+        {/* <Test /> */}
+        <h1>项目列表</h1>
+        <ButtonNoPadding onClick={open} type={"link"}>
+          创建项目
+        </ButtonNoPadding>
+      </Row>
       <SearchPanel users={users || []} param={param} setParam={setParam} />
-      {
-        error ? <Typography.Text type={"danger"}>{error.message}</Typography.Text> : null
-      }
-      <List loading={isLoading} users={users || []} dataSource={list || []}/* list={list} */ />
+      <ErrorBox error={error} />
+      <List
+        loading={isLoading}
+        users={users || []}
+        dataSource={list || []} /* list={list} */
+      />
     </Container>
   );
 };

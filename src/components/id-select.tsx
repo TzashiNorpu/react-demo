@@ -1,16 +1,15 @@
-import {Select} from "antd";
-import react from 'react';
-import {Raw} from "types";
-
+import { Select } from "antd";
+import react from "react";
+import { Raw } from "types";
 
 type SelectProps = React.ComponentProps<typeof Select>;
 
-
-interface IdSelectProps extends Omit<SelectProps, "value" | "onChange" | "options"> {
-  value: Raw | null | undefined;
-  onChange: (value?: number) => void;
+interface IdSelectProps
+  extends Omit<SelectProps, "value" | "onChange" | "options"> {
+  value?: Raw | null | undefined;
+  onChange?: (value?: number) => void;
   defaultOptionName?: string;
-  options?: {name: string, id: number}[]
+  options?: { name: string; id: number }[];
 }
 
 /**
@@ -22,7 +21,7 @@ interface IdSelectProps extends Omit<SelectProps, "value" | "onChange" | "option
  * @constructor
  */
 export const IdSelect = (props: IdSelectProps) => {
-  const {value, onChange, defaultOptionName, options, ...restProps} = props;
+  const { value, onChange, defaultOptionName, options, ...restProps } = props;
   return (
     <Select
       value={options?.length ? toNumber(value) : 0}
@@ -39,6 +38,6 @@ export const IdSelect = (props: IdSelectProps) => {
       ))}
     </Select>
   );
-}
+};
 
 const toNumber = (value: unknown) => (isNaN(Number(value)) ? 0 : Number(value));
