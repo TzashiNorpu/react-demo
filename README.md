@@ -41,3 +41,8 @@
 - yarn add @welldone-software/why-did-you-render
 
 #### react query
+
+
+#### 
+- yarn add react-beautiful-dnd
+- yarn add @types/react-beautiful-dnd -D

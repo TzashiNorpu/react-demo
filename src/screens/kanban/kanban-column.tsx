@@ -50,25 +50,26 @@ const TaskCard = ({task}: {task: Task}) => {
   </Card>);
 }
 
-export const KanbanColumn = ({kanban}: {kanban: Kanban}) => {
-  const {data: allTasks} = useTasks(useKanbanSearchParams());
-  const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
+export const KanbanColumn = React.forwardRef<HTMLDivElement, {kanban: Kanban}>
+  (({kanban, ...props}: {kanban: Kanban}, ref) => {
+    const {data: allTasks} = useTasks(useKanbanSearchParams());
+    const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
 
-  return (
-    <Container>
-      <Row between={true}>
-        <h3>{kanban.name}</h3>
-        <More kanban={kanban} key={kanban.id} />
-      </Row>
-      <TasksContainer>
-        {tasks?.map((task) => (
-          <TaskCard key={task.name} task={task} />
-        ))}
-        <CreateTask kanbanId={kanban.id} />
-      </TasksContainer>
-    </Container>
-  );
-};
+    return (
+      <Container {...props} ref={ref}>
+        <Row between={true}>
+          <h3>{kanban.name}</h3>
+          <More kanban={kanban} key={kanban.id} />
+        </Row>
+        <TasksContainer>
+          {tasks?.map((task) => (
+            <TaskCard key={task.id} task={task} />
+          ))}
+          <CreateTask kanbanId={kanban.id} />
+        </TasksContainer>
+      </Container>
+    );
+  });
 
 const More = ({kanban}: {kanban: Kanban}) => {
   const {mutateAsync} = useDeleteKanban(useKanbansQueryKey());
@@ -82,14 +83,16 @@ const More = ({kanban}: {kanban: Kanban}) => {
       },
     });
   };
+  const menuItem = [
+    {
+      key: kanban.id,
+      icon: <Button type={"link"} onClick={startDelete}>
+        删除
+      </Button>,
+    },
+  ];
   const overlay = (
-    <Menu>
-      <Menu.Item key={kanban.id}>
-        <Button type={"link"} onClick={startDelete}>
-          删除
-        </Button>
-      </Menu.Item>
-    </Menu>
+    <Menu items={menuItem} />
   );
   return (
     <Dropdown overlay={overlay}>

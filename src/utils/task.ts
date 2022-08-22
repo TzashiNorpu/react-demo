@@ -7,7 +7,6 @@ import {
   useEditConfig,
   // useReorderTaskConfig,
 } from "utils/use-optimistic-options";
-import {SortProps} from "utils/kanban";
 import {Project} from "types";
 
 export const useTasks = (param?: Partial<Task>) => {

@@ -13,17 +13,22 @@ const useRouteType = () => {
 
 export const ProjectScreen = () => {
   const routeType = useRouteType();
+  const menuItems = [
+    {
+      key: 'kanban',
+      icon: <Link to={"kanban"}>看板</Link>,
+    },
+    {
+      key: 'epic',
+      icon: <Link to={"epic"}>任务组</Link>,
+    },
+  ];
   return (
     < Container >
+
+
       <Aside>
-        <Menu mode={"inline"} selectedKeys={[routeType]}>
-          <Menu.Item key={"kanban"}>
-            <Link to={"kanban"}>看板</Link>
-          </Menu.Item>
-          <Menu.Item key={"epic"}>
-            <Link to={"epic"}>任务组</Link>
-          </Menu.Item>
-        </Menu>
+        <Menu mode={"inline"} selectedKeys={[routeType]} items={menuItems} />
       </Aside>
       <Main>
         <Routes>

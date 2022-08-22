@@ -50,6 +50,14 @@ export const AuthenticatedApp = () => {
 
 const PageHeader = () => {
   const {logout, user} = useAuth();
+  const menuItem = [
+    {
+      key: "logout",
+      label: <Button onClick={logout} type={"link"}>
+        登出
+      </Button>
+    }
+  ];
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
@@ -60,22 +68,14 @@ const PageHeader = () => {
       </HeaderLeft>
       <HeaderRight>
         <Dropdown
-          overlay={
-            <Menu>
-              <Menu.Item key={"logout"}>
-                <Button onClick={logout} type={"link"}>
-                  登出
-                </Button>
-              </Menu.Item>
-            </Menu>
-          }
+          overlay={<Menu items={menuItem} />}
         >
           <Button onClick={(e) => e.preventDefault()} type={"link"}>
             Hi,{user?.name}
           </Button>
         </Dropdown>
-      </HeaderRight>
-    </Header>
+      </HeaderRight >
+    </Header >
   );
 };
 
