@@ -1,12 +1,17 @@
-import {List} from "./list";
-import {SearchPanel} from "./search-panel";
+import { List } from "./list";
+import { SearchPanel } from "./search-panel";
 import React from "react";
-import {useDebounce, useDocumentTitle} from "utils";
+import { useDebounce, useDocumentTitle } from "utils";
 import styled from "@emotion/styled";
-import {useProjects} from "utils/project";
-import {useUsers} from "utils/user";
-import {useProjectModal, useProjectsSearchParams} from "./util";
-import {ButtonNoPadding, ErrorBox, Row} from "components/lib";
+import { useProjects } from "utils/project";
+import { useUsers } from "utils/user";
+import { useProjectModal, useProjectsSearchParams } from "./util";
+import {
+  ButtonNoPadding,
+  ErrorBox,
+  Row,
+  ScreenContainer,
+} from "components/lib";
 
 export const ProjectListScreen = () => {
   /* const [param, setParam] = useState({
@@ -29,9 +34,9 @@ export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
   const [param, setParam] = useProjectsSearchParams();
   // const debouncedParam = useDebounce(projectParam, 300);
-  const {isLoading, error, data: list} = useProjects(useDebounce(param, 300));
-  const {data: users} = useUsers();
-  const {open} = useProjectModal();
+  const { isLoading, error, data: list } = useProjects(useDebounce(param, 300));
+  const { data: users } = useUsers();
+  const { open } = useProjectModal();
   // const client = useHttp();
 
   // const {run, isLoading, error, data: list} = useAsync<Project[]>();
@@ -66,7 +71,7 @@ export const ProjectListScreen = () => {
   }); */
   // });
   return (
-    <Container>
+    <ScreenContainer>
       <Row between={true}>
         {/* <Test /> */}
         <h1>项目列表</h1>
@@ -81,12 +86,8 @@ export const ProjectListScreen = () => {
         users={users || []}
         dataSource={list || []} /* list={list} */
       />
-    </Container>
+    </ScreenContainer>
   );
 };
 
 // ProjectListScreen.whyDidYouRender = true;
-
-const Container = styled.div`
-  padding: 3.2rem;
-`;

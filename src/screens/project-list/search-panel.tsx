@@ -13,7 +13,7 @@ interface SearchPanelProps {
   setParam: (param: SearchPanelProps["param"]) => void;
 }
 
-export const SearchPanel = ({ users, param, setParam }: SearchPanelProps) => {
+export const SearchPanel = ({ param, setParam }: SearchPanelProps) => {
   return (
     // emotion 行内样式
     <Form style={{ marginBottom: "2rem" }} layout={"inline"}>
