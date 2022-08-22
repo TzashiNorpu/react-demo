@@ -1,15 +1,15 @@
 import styled from "@emotion/styled";
-import { ButtonNoPadding, Row } from "components/lib";
-import { useAuth } from "context/auth-context";
+import {ButtonNoPadding, Row} from "components/lib";
+import {useAuth} from "context/auth-context";
 import React from "react";
-import { ProjectListScreen } from "screens/project-list";
-import { ReactComponent as SoftwareLogo } from "assets/software-logo.svg";
-import { Button, Dropdown, Menu } from "antd";
-import { Navigate, Route, Routes } from "react-router";
-import { ProjectScreen } from "screens/project";
-import { resetRoute } from "utils";
-import { ProjectModal } from "screens/project-list/project-modal";
-import { ProjectPopover } from "components/project-popover";
+import {ProjectListScreen} from "screens/project-list";
+import {ReactComponent as SoftwareLogo} from "assets/software-logo.svg";
+import {Button, Dropdown, Menu} from "antd";
+import {Navigate, Route, Routes} from "react-router";
+import {ProjectScreen} from "screens/project";
+import {resetRoute} from "utils";
+import {ProjectModal} from "screens/project-list/project-modal";
+import {ProjectPopover} from "components/project-popover";
 /**
  * grid 和 flex 各自的应用场景
  * 1. 要考虑，是一维布局 还是 二维布局
@@ -49,7 +49,7 @@ export const AuthenticatedApp = () => {
 };
 
 const PageHeader = () => {
-  const { logout, user } = useAuth();
+  const {logout, user} = useAuth();
   return (
     <Header between={true}>
       <HeaderLeft gap={true}>
@@ -105,7 +105,8 @@ const HeaderLeft = styled(Row)``;
 const HeaderRight = styled.div``;
 
 const Main = styled.main`
-  grid-area: main;
+  display: flex;
+  overflow: hidden;
 `;
 
 /* const Nav = styled.nav`

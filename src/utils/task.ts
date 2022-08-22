@@ -1,24 +1,24 @@
-import { useHttp } from "utils/http";
-import { QueryKey, useMutation, useQuery } from "react-query";
-import { Task } from "types/task";
-/* import {
+import {useHttp} from "utils/http";
+import {QueryKey, useMutation, useQuery} from "react-query";
+import {Task} from "types/task";
+import {
   useAddConfig,
   useDeleteConfig,
   useEditConfig,
-  useReorderTaskConfig,
+  // useReorderTaskConfig,
 } from "utils/use-optimistic-options";
-import { Project } from "types/project";
-import { SortProps } from "utils/kanban"; */
+import {SortProps} from "utils/kanban";
+import {Project} from "types";
 
 export const useTasks = (param?: Partial<Task>) => {
   const client = useHttp();
 
   return useQuery<Task[]>(["tasks", param], () =>
-    client("tasks", { data: param })
+    client("tasks", {data: param})
   );
 };
 
-/* export const useAddTask = (queryKey: QueryKey) => {
+export const useAddTask = (queryKey: QueryKey) => {
   const client = useHttp();
 
   return useMutation(
@@ -33,7 +33,7 @@ export const useTasks = (param?: Partial<Task>) => {
 
 export const useTask = (id?: number) => {
   const client = useHttp();
-  return useQuery<Project>(["task", { id }], () => client(`tasks/${id}`), {
+  return useQuery<Project>(["task", {id}], () => client(`tasks/${id}`), {
     enabled: Boolean(id),
   });
 };
@@ -54,14 +54,14 @@ export const useDeleteTask = (queryKey: QueryKey) => {
   const client = useHttp();
 
   return useMutation(
-    ({ id }: { id: number }) =>
+    ({id}: {id: number}) =>
       client(`tasks/${id}`, {
         method: "DELETE",
       }),
     useDeleteConfig(queryKey)
   );
 };
-
+/*
 export const useReorderTask = (queryKey: QueryKey) => {
   const client = useHttp();
   return useMutation((params: SortProps) => {

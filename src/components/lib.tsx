@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
-import { Button, Spin, Typography } from "antd";
-import { DevTools } from "jira-dev-tool";
+import {Button, Spin, Typography} from "antd";
+import {DevTools} from "jira-dev-tool";
 
 export const Row = styled.div<{
   gap?: number | boolean;
@@ -15,9 +15,9 @@ export const Row = styled.div<{
     margin-top: 0 !important;
     margin-bottom: 0 !important;
     margin-right: ${(props) =>
-      typeof props.gap === "number"
-        ? props.gap + "rem"
-        : props.gap
+    typeof props.gap === "number"
+      ? props.gap + "rem"
+      : props.gap
         ? "2rem"
         : undefined};
   }
@@ -36,7 +36,7 @@ export const FullPageLoading = () => (
   </FullPage>
 );
 
-export const FullPageErrorFallback = ({ error }: { error: Error | null }) => (
+export const FullPageErrorFallback = ({error}: {error: Error | null}) => (
   <FullPage>
     <DevTools />
     <ErrorBox error={error}></ErrorBox>
@@ -51,9 +51,17 @@ export const ButtonNoPadding = styled(Button)`
 // 类型守卫
 const isError = (value: any): value is Error => value?.message;
 
-export const ErrorBox = ({ error }: { error: unknown }) => {
+export const ErrorBox = ({error}: {error: unknown}) => {
   if (isError(error)) {
     return <Typography.Text type={"danger"}>{error?.message}</Typography.Text>;
   }
   return null;
 };
+
+
+export const ScreenContainer = styled.div`
+  padding: 3.2rem;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+`;
