@@ -1,16 +1,10 @@
-import { useEffect } from "react";
 import {
-  QueryClient,
   QueryKey,
   useMutation,
   useQuery,
-  useQueryClient,
 } from "react-query";
-import { useProjectsSearchParams } from "screens/project-list/util";
-import { Project } from "types";
-import { cleanObject } from "utils";
-import { useHttp } from "./http";
-import { useAsync } from "./use-async";
+import {Project} from "types";
+import {useHttp} from "./http";
 import {
   useAddConfig,
   useDeleteConfig,
@@ -44,7 +38,7 @@ export const useProjects = (param?: Partial<Project>) => {
   // return result;
 
   return useQuery<Project[]>(["projects", param], () =>
-    client("projects", { data: param })
+    client("projects", {data: param})
   );
 };
 
@@ -133,7 +127,7 @@ export const useDeleteProject = (queryKey: QueryKey) => {
   const client = useHttp();
 
   return useMutation(
-    ({ id }: { id: number }) =>
+    ({id}: {id: number}) =>
       client(`projects/${id}`, {
         method: "DELETE",
       }),
@@ -144,7 +138,7 @@ export const useDeleteProject = (queryKey: QueryKey) => {
 export const useProject = (id?: number) => {
   const client = useHttp();
   return useQuery<Project>(
-    ["project", { id }],
+    ["project", {id}],
     () => client(`projects/${id}`),
     // id undefined 时不请求
     {

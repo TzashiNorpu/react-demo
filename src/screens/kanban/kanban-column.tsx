@@ -1,25 +1,25 @@
 import React from "react";
-import { Kanban } from "types/kanban";
-import { useTasks } from "utils/task";
+import {Kanban} from "types/kanban";
+import {useTasks} from "utils/task";
 import taskIcon from "assets/task.svg";
 import bugIcon from "assets/bug.svg";
-import { useTaskTypes } from "utils/task-type";
+import {useTaskTypes} from "utils/task-type";
 import {
-  useKanbanSearchParams,
   useKanbansQueryKey,
   useTasksModal,
   useTasksSearchParams,
 } from "./util";
 import styled from "@emotion/styled";
-import { Button, Card, Dropdown, Menu, Modal } from "antd";
-import { CreateTask } from "./create-task";
-import { Task } from "types/task";
-import { Mark } from "./mark";
-import { useDeleteKanban } from "utils/kanban";
-import { Row } from "components/lib";
+import {Button, Card, Dropdown, Menu, Modal} from "antd";
+import {CreateTask} from "./create-task";
+import {Task} from "types/task";
+import {Mark} from "./mark";
+import {useDeleteKanban} from "utils/kanban";
+import {Row} from "components/lib";
+import {Drag, Drop, DropChild} from "components/drag-and-drop";
 
-const TaskTypeIcon = ({ id }: { id: number }) => {
-  const { data: taskTypes } = useTaskTypes();
+const TaskTypeIcon = ({id}: {id: number}) => {
+  const {data: taskTypes} = useTaskTypes();
   const name = taskTypes?.find((taskType) => taskType.id === id)?.name;
   if (!name) {
     return null;
@@ -27,13 +27,13 @@ const TaskTypeIcon = ({ id }: { id: number }) => {
   return <img alt={"task-icon"} src={name === "task" ? taskIcon : bugIcon} />;
 };
 
-const TaskCard = ({ task }: { task: Task }) => {
-  const { startEdit } = useTasksModal();
-  const { name: keyword } = useTasksSearchParams();
+const TaskCard = ({task}: {task: Task}) => {
+  const {startEdit} = useTasksModal();
+  const {name: keyword} = useTasksSearchParams();
   return (
     <Card
       onClick={() => startEdit(task.id)}
-      style={{ marginBottom: "0.5rem", cursor: "pointer" }}
+      style={{marginBottom: "0.5rem", cursor: "pointer"}}
       key={task.id}
     >
       <p>
@@ -46,9 +46,9 @@ const TaskCard = ({ task }: { task: Task }) => {
 
 export const KanbanColumn = React.forwardRef<
   HTMLDivElement,
-  { kanban: Kanban }
->(({ kanban, ...props }: { kanban: Kanban }, ref) => {
-  const { data: allTasks } = useTasks(useTasksSearchParams());
+  {kanban: Kanban}
+>(({kanban, ...props}: {kanban: Kanban}, ref) => {
+  const {data: allTasks} = useTasks(useTasksSearchParams());
   const tasks = allTasks?.filter((task) => task.kanbanId === kanban.id);
 
   return (
@@ -58,24 +58,39 @@ export const KanbanColumn = React.forwardRef<
         <More kanban={kanban} key={kanban.id} />
       </Row>
       <TasksContainer>
-        {tasks?.map((task) => (
-          <TaskCard key={task.id} task={task} />
-        ))}
+        <Drop
+          type={'ROW'}
+          direction={'vertical'}
+          droppableId={String(kanban.id)}>
+          <DropChild style={{minHeight: '5px'}}>
+            {tasks?.map((task, index) => (
+              <Drag
+                key={task.id}
+                index={index}
+                draggableId={'task' + task.id}
+              >
+                <div ref={ref}>
+                  <TaskCard key={task.id} task={task} />
+                </div>
+              </Drag>
+            ))}
+          </DropChild>
+        </Drop>
         <CreateTask kanbanId={kanban.id} />
       </TasksContainer>
     </Container>
   );
 });
 
-const More = ({ kanban }: { kanban: Kanban }) => {
-  const { mutateAsync } = useDeleteKanban(useKanbansQueryKey());
+const More = ({kanban}: {kanban: Kanban}) => {
+  const {mutateAsync} = useDeleteKanban(useKanbansQueryKey());
   const startDelete = () => {
     Modal.confirm({
       okText: "确定",
       cancelText: "取消",
       title: "确定删除看板吗",
       onOk() {
-        return mutateAsync({ id: kanban.id });
+        return mutateAsync({id: kanban.id});
       },
     });
   };

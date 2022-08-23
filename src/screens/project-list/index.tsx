@@ -1,11 +1,10 @@
-import { List } from "./list";
-import { SearchPanel } from "./search-panel";
+import {List} from "./list";
+import {SearchPanel} from "./search-panel";
 import React from "react";
-import { useDebounce, useDocumentTitle } from "utils";
-import styled from "@emotion/styled";
-import { useProjects } from "utils/project";
-import { useUsers } from "utils/user";
-import { useProjectModal, useProjectsSearchParams } from "./util";
+import {useDebounce, useDocumentTitle} from "utils";
+import {useProjects} from "utils/project";
+import {useUsers} from "utils/user";
+import {useProjectModal, useProjectsSearchParams} from "./util";
 import {
   ButtonNoPadding,
   ErrorBox,
@@ -34,9 +33,9 @@ export const ProjectListScreen = () => {
   useDocumentTitle("项目列表", false);
   const [param, setParam] = useProjectsSearchParams();
   // const debouncedParam = useDebounce(projectParam, 300);
-  const { isLoading, error, data: list } = useProjects(useDebounce(param, 300));
-  const { data: users } = useUsers();
-  const { open } = useProjectModal();
+  const {isLoading, error, data: list} = useProjects(useDebounce(param, 300));
+  const {data: users} = useUsers();
+  const {open} = useProjectModal();
   // const client = useHttp();
 
   // const {run, isLoading, error, data: list} = useAsync<Project[]>();

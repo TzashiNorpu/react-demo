@@ -1,14 +1,17 @@
-import { useEffect, useRef, useState } from "react";
+import {useEffect, useRef, useState} from "react";
 
-export const isFalsy = (value: unknown): boolean =>
-  value === 0 ? false : !value;
+export const isFalsy = (value: unknown) => (value === 0 ? false : !value);
 
-export const isVoid = (value: unknown): boolean =>
-  value === "" || value === undefined || value === null;
+export const isVoid = (value: unknown) =>
+  value === undefined || value === null || value === "";
 
-export const cleanObject = (object: { [key: string]: unknown }) => {
-  const result = { ...object };
-  Object.keys(object).forEach((key) => {
+export const cleanObject = (object?: {[key: string]: unknown}) => {
+  // Object.assign({}, object)
+  if (!object) {
+    return {};
+  }
+  const result = {...object};
+  Object.keys(result).forEach((key) => {
     const value = result[key];
     if (isVoid(value)) {
       delete result[key];
@@ -64,6 +67,8 @@ export const useDebounce = <V>(value: V, delay?: number) => {
   return debouncedValue;
 };
 
+
+
 export const useArray = <T>(initialArray: T[]) => {
   const [value, setValue] = useState(initialArray);
   return {
@@ -105,7 +110,7 @@ export const useDocumentTitle = (
  * @param keys
  */
 export const subset = <
-  O extends { [key in string]: unknown },
+  O extends {[key in string]: unknown},
   K extends keyof O
 >(
   obj: O,
