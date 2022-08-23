@@ -1,10 +1,10 @@
 import React from "react"
 import {Link} from 'react-router-dom';
 import {Navigate, Route, Routes, useLocation} from "react-router"
-import {EpicScreen} from "screens/epic"
 import {KanbanScreen} from "screens/kanban"
 import styled from "@emotion/styled";
 import {Menu} from "antd";
+import {EpicScreen} from "screens/epic";
 
 const useRouteType = () => {
   const units = useLocation().pathname.split("/");
@@ -55,5 +55,5 @@ const Main = styled.div`
 const Container = styled.div`
   display: grid;
   grid-template-columns: 20rem 1fr;
-  overflow: hidden;
+  width: 100%;
 `;
